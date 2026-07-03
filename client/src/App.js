@@ -4,6 +4,7 @@ import axios from 'axios';
 import './styles/App.css';
 
 // Páginas
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import DashboardCidadao from './pages/DashboardCidadao';
@@ -57,6 +58,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={usuario ? <Navigate to={usuario.role === 'admin' || usuario.role === 'policia' ? '/admin' : '/dashboard'} /> : <Home />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/registro" element={<Registro onLogin={handleLogin} />} />
         
@@ -72,8 +74,6 @@ const App = () => {
         {(usuario?.role === 'admin' || usuario?.role === 'policia') && (
           <Route path="/admin" element={<DashboardAdmin usuario={usuario} token={token} onLogout={handleLogout} />} />
         )}
-        
-        <Route path="/" element={usuario ? <Navigate to={usuario.role === 'admin' || usuario.role === 'policia' ? '/admin' : '/dashboard'} /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
