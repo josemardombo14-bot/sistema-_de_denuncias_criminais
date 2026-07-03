@@ -1,0 +1,133 @@
+.lista-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 40px 20px;
+}
+
+.lista-header {
+  max-width: 1000px;
+  margin: 0 auto 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lista-header h1 {
+  color: #333;
+}
+
+.btn-nova {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-nova:hover {
+  background-color: #218838;
+}
+
+.filtros {
+  max-width: 1000px;
+  margin: 0 auto 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.filtro-select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.denuncias-lista {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  gap: 15px;
+}
+
+.denuncia-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid #667eea;
+}
+
+.denuncia-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.denuncia-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 10px;
+}
+
+.denuncia-header h3 {
+  color: #333;
+  margin: 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.denuncia-tipo {
+  color: #666;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.denuncia-data {
+  color: #999;
+  font-size: 12px;
+}
+
+.anonima-badge {
+  display: inline-block;
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.vazio {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  text-align: center;
+  color: #666;
+}
+
+.btn-voltar {
+  max-width: 1000px;
+  margin: 30px auto 0;
+  display: block;
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-voltar:hover {
+  background-color: #5a6268;
+}
