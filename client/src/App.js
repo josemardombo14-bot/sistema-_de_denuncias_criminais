@@ -13,6 +13,9 @@ import CriarDenuncia from './pages/CriarDenuncia';
 import MinhasDenuncias from './pages/MinhasDenuncias';
 import VerDenuncia from './pages/VerDenuncia';
 
+// Componentes
+import ChatBot from './components/ChatBot';
+
 const App = () => {
   const [usuario, setUsuario] = useState(null);
   const [carregando, setCarregando] = useState(true);
@@ -57,6 +60,7 @@ const App = () => {
 
   return (
     <Router>
+      <ChatBot />
       <Routes>
         <Route path="/" element={usuario ? <Navigate to={usuario.role === 'admin' || usuario.role === 'policia' ? '/admin' : '/dashboard'} /> : <Home />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
