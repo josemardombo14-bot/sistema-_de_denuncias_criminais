@@ -7,6 +7,8 @@
  * @param {string} screenName - Nome da tela ('home', 'report', 'tracking', 'help')
  */
 function navigateTo(screenName) {
+  console.log('Navegando para:', screenName);
+  
   // Oculta todas as telas
   const screens = document.querySelectorAll('.screen');
   screens.forEach(screen => screen.classList.remove('active'));
@@ -20,9 +22,14 @@ function navigateTo(screenName) {
   };
 
   const targetScreen = document.getElementById(screenMap[screenName]);
+  console.log('Tela alvo:', targetScreen);
+  
   if (targetScreen) {
     targetScreen.classList.add('active');
     window.scrollTo(0, 0);
+    console.log('Tela ativada com sucesso:', screenName);
+  } else {
+    console.error('Tela não encontrada:', screenName);
   }
 }
 
@@ -115,15 +122,7 @@ function saveReport(reportData) {
  * @param {string} contact - Contato do denunciante
  */
 function showSuccessMessage(protocolNumber, contact) {
-  const message = `
-    ✓ Denúncia registrada com sucesso!
-    
-    Seu número de protocolo: ${protocolNumber}
-    
-    ${contact !== 'N/A' && contact !== 'Anônimo' ? `Um e-mail de confirmação foi enviado para: ${contact}` : 'Você pode acompanhar sua denúncia usando o número de protocolo acima.'}
-    
-    Você será redirecionado para a tela inicial em 3 segundos...
-  `;
+  const message = `✓ Denúncia registrada com sucesso!\n\nSeu número de protocolo: ${protocolNumber}\n\n${contact !== 'N/A' && contact !== 'Anônimo' ? `Um e-mail de confirmação foi enviado para: ${contact}` : 'Você pode acompanhar sua denúncia usando o número de protocolo acima.'}\n\nVocê será redirecionado para a tela inicial em 3 segundos...`;
 
   alert(message);
   
@@ -246,7 +245,7 @@ function translateCategory(category) {
 /**
  * Manipula a seleção de arquivos de evidência
  */
-document.addEventListener('DOMContentLoaded', function() {
+function setupFileUpload() {
   const evidenceInput = document.getElementById('evidence');
   if (evidenceInput) {
     evidenceInput.addEventListener('change', function(e) {
@@ -303,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-});
+}
 
 /**
  * Retorna ícone apropriado para tipo de arquivo
@@ -318,21 +317,36 @@ function getFileIcon(fileType) {
 }
 
 // ========================================
-// INICIALIZAÇÃO
+// INICIALIZAÇÃO - CHAMADO UMA VEZ APENAS
 // ========================================
 
 /**
  * Inicializa a aplicação
  */
-document.addEventListener('DOMContentLoaded', function() {
+function initializeApp() {
+  console.log('Inicializando aplicação...');
+  
   // Mostra tela inicial por padrão
   navigateTo('home');
+
+  // Setup de eventos
+  setupFileUpload();
 
   // Inicializa chat se necessário
   if (typeof initChatbot === 'function') {
     initChatbot();
   }
-});
+  
+  console.log('Aplicação inicializada com sucesso!');
+}
+
+// Garante que a inicialização ocorra quando o DOM está pronto
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  // DOM já estava carregado
+  initializeApp();
+}
 
 // ========================================
 // FUNÇÕES UTILITÁRIAS
