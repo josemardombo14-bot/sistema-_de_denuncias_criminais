@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistema Nacional de Denúncias - SNAD</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Tela Inicial -->
+  <div id="homeScreen" class="screen active">
+    <div class="home-container">
+      <div class="home-header">
+        <img src="logo.svg" alt="Polícia Nacional" class="home-logo" />
+        <h1>Sistema Nacional de Denúncias</h1>
+        <p class="subtitle">SNAD - Sua voz importa para a segurança pública</p>
+      </div>
+
+      <div class="home-content">
+        <p class="welcome-text">
+          Denuncie crimes e irregularidades de forma segura e confidencial. 
+          Suas informações contribuem para manter nossa comunidade mais segura.
+        </p>
+
+        <div class="features-grid">
+          <div class="feature">
+            <div class="feature-icon">🔒</div>
+            <h3>Seguro</h3>
+            <p>Dados criptografados e anônimos</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <h3>Rápido</h3>
+            <p>Registro em poucos minutos</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📱</div>
+            <h3>Acessível</h3>
+            <p>Funciona em qualquer dispositivo</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">✓</div>
+            <h3>Confiável</h3>
+            <p>Sistema oficial da Polícia Nacional</p>
+          </div>
+        </div>
+
+        <div class="home-actions">
+          <button class="btn btn-primary btn-large" onclick="navigateTo('report')">
+            Fazer uma Denúncia
+          </button>
+          <button class="btn btn-secondary btn-large" onclick="navigateTo('tracking')">
+            Acompanhar Denúncia
+          </button>
+          <button class="btn btn-outline btn-large" onclick="navigateTo('help')">
+            Central de Ajuda
+          </button>
+        </div>
+
+        <div class="home-info">
+          <p><strong>⚠️ Emergência?</strong> Ligue 190</p>
+        </div>
+      </div>
+
+      <footer class="home-footer">
+        <p>© 2026 Polícia Nacional - Sistema de Denúncias | Todos os direitos reservados</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Tela de Denúncia -->
+  <div id="reportScreen" class="screen">
+    <header class="topbar">
+      <button class="btn-back" onclick="navigateTo('home')">← Voltar</button>
+      <h1>Registrar Nova Denúncia</h1>
+      <div class="spacer"></div>
+    </header>
+
+    <main class="container app-grid">
+      <section class="card">
+        <h2>Dados da Denúncia</h2>
+        <p class="lead">Você pode registrar de forma anônima se preferir.</p>
+
+        <form id="reportForm" enctype="multipart/form-data" onsubmit="event.preventDefault(); submitReport();">
+          <div class="form-group checkbox-inline">
+            <input id="anonymous" name="anonymous" type="checkbox" onchange="toggleIdentityFields()" />
+            <label for="anonymous">Desejo permanecer anônimo</label>
+          </div>
+
+          <div id="identityFields">
+            <label for="name">Nome (opcional)</label>
+            <input id="name" name="name" type="text" placeholder="Seu nome completo" />
+
+            <label for="contact">Contato (opcional)</label>
+            <input id="contact" name="contact" type="email" placeholder="seu.email@example.com ou (XX) XXXXX-XXXX" />
+          </div>
+
+          <label for="location">Local da Ocorrência *</label>
+          <input id="location" name="location" type="text" placeholder="Bairro, rua, ponto de referência" required />
+
+          <label for="coords">Coordenadas GPS (opcional)</label>
+          <input id="coords" name="coords" type="text" placeholder="Latitude, Longitude (ex: -13.5, 18.8)" />
+
+          <label for="datetime">Data / Hora (aproximada) *</label>
+          <input id="datetime" name="datetime" type="datetime-local" required />
+
+          <label for="category">Categoria do Crime *</label>
+          <select id="category" name="category" required>
+            <option value="">Selecione uma categoria</option>
+            <option value="roubo">Roubo</option>
+            <option value="furto">Furto</option>
+            <option value="violencia">Violência</option>
+            <option value="drogas">Tráfico de Drogas</option>
+            <option value="fraude">Fraude / Estelionato</option>
+            <option value="corrupcao">Corrupção</option>
+            <option value="outro">Outro</option>
+          </select>
+
+          <label for="description">Descrição Detalhada *</label>
+          <textarea id="description" name="description" rows="8" placeholder="Descreva todos os detalhes do incidente. Quanto mais informação, melhor." required></textarea>
+
+          <label for="evidence">Evidências (Imagens, Vídeos, Documentos)</label>
+          <div class="file-upload">
+            <input id="evidence" name="evidence" type="file" multiple aria-describedby="fileNote" />
+            <div id="fileNote" class="file-note">
+              📎 Tamanho máximo: 50MB total | Formatos aceitos: JPG, PNG, MP4, PDF
+            </div>
+          </div>
+          <div id="evidencePreview" class="mt-8"></div>
+
+          <div class="actions">
+            <button class="btn btn-primary btn-large" type="submit" id="submitBtn">
+              ✓ Enviar Denúncia
+            </button>
+            <button class="btn btn-secondary btn-large" type="reset" id="resetBtn">
+              ⟲ Limpar Formulário
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card">
+        <h3>📞 Suporte Imediato</h3>
+        <div id="chatbot" class="chatbot">
+          <div id="messages" class="chat-window" aria-live="polite"></div>
+          <div class="chat-controls">
+            <input id="chatInput" placeholder="Faça uma pergunta..." aria-label="Chat com assistente" />
+            <button class="btn btn-primary" onclick="sendChat()">Enviar</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Tela de Rastreamento -->
+  <div id="trackingScreen" class="screen">
+    <header class="topbar">
+      <button class="btn-back" onclick="navigateTo('home')">← Voltar</button>
+      <h1>Acompanhar Denúncia</h1>
+      <div class="spacer"></div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Consulte o Status de sua Denúncia</h2>
+        <p class="lead">Use o número de protocolo enviado por e-mail para acompanhar sua denúncia.</p>
+
+        <form onsubmit="event.preventDefault(); trackReport();">
+          <label for="protocolNumber">Número de Protocolo *</label>
+          <input id="protocolNumber" type="text" placeholder="Ex: DEN-2026-XXXXX" required />
+
+          <label for="email">E-mail de Registro *</label>
+          <input id="email" type="email" placeholder="seu.email@example.com" required />
+
+          <button class="btn btn-primary btn-large" type="submit">🔍 Buscar Denúncia</button>
+        </form>
+
+        <div id="trackingResult" class="mt-8"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Tela de Ajuda -->
+  <div id="helpScreen" class="screen">
+    <header class="topbar">
+      <button class="btn-back" onclick="navigateTo('home')">← Voltar</button>
+      <h1>Central de Ajuda</h1>
+      <div class="spacer"></div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Perguntas Frequentes</h2>
+
+        <div class="faq-item">
+          <h3>Como funciona o sistema de denúncias?</h3>
+          <p>Você preenche um formulário com informações sobre o incidente. O sistema valida os dados e envia para análise pelos órgãos competentes. Você receberá um número de protocolo para acompanhar sua denúncia.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Minha denúncia é realmente anônima?</h3>
+          <p>Sim. Se você optar pela denúncia anônima, nenhuma informação pessoal será registrada ou transmitida. Seus dados estão protegidos por criptografia de ponta a ponta.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Quanto tempo demora para investigar?</h3>
+          <p>O tempo varia conforme a complexidade do caso. Crimes graves são investigados com prioridade. Você poderá acompanhar o progresso usando seu número de protocolo.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Posso anexar provas?</h3>
+          <p>Sim, você pode enviar fotos, vídeos e documentos (até 50MB). Estes arquivos são seguros e criptografados.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>É uma emergência?</h3>
+          <p><strong>Para emergências, ligue 190 imediatamente.</strong> Este sistema é para denúncias que não exigem resposta imediata.</p>
+        </div>
+
+        <h2 class="mt-12">Contatos Úteis</h2>
+        <div class="contacts-grid">
+          <div class="contact-card">
+            <h4>Emergência</h4>
+            <p><strong>190</strong></p>
+          </div>
+          <div class="contact-card">
+            <h4>Polícia Civil</h4>
+            <p><strong>181</strong> (disque-denúncia)</p>
+          </div>
+          <div class="contact-card">
+            <h4>Suporte SNAD</h4>
+            <p><strong>snad@policia.gov.br</strong></p>
+          </div>
+          <div class="contact-card">
+            <h4>Horário de Atendimento</h4>
+            <p>24h - Todos os dias</p>
+          </div>
+        </div>
+
+        <div class="home-actions mt-8">
+          <button class="btn btn-primary btn-large" onclick="navigateTo('report')">
+            Fazer uma Denúncia
+          </button>
+          <button class="btn btn-secondary btn-large" onclick="navigateTo('home')">
+            Voltar ao Início
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="chatbot.js"></script>
+</body>
+</html>
